@@ -13,26 +13,23 @@ const TableGenerator = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Define the variables in the expression (e.g., "p" and "q")
+   
     const variables = expression
       .split(/[^\w]/)
       .filter((v) => v)
       .filter((v, i, arr) => arr.indexOf(v) === i);
 
-    // Generate all possible truth values for the variables
+  
     const truthValues = generateTruthValues(variables.length);
 
-    // Evaluate the expression for each truth value
     const results = truthValues.map((values) => ({
       values,
       result: evaluateExpression(expression, variables, values),
     }));
-
-    // Store the results in the table state
     setTable(results);
   };
 
-  // Helper function to generate all possible truth values for n variables
+  
   const generateTruthValues = (n) => {
     const truthValues = [];
     for (let i = 0; i < Math.pow(2, n); i++) {
@@ -42,14 +39,16 @@ const TableGenerator = () => {
     return truthValues;
   };
 
-  // Helper function to evaluate an expression for a set of truth values
+ 
   const evaluateExpression = (expression, variables, values) => {
     const valuesMap = variables.reduce(
       (acc, v, i) => ({ ...acc, [v]: values[i] }),
       {}
     );
     const tokens = expression.split(/(\W)/).filter((t) => t !== " ");
+    
     const stack = [];
+
     for (const token of tokens) {
       if (/\w/.test(token)) {
         stack.push(valuesMap[token]);
